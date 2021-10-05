@@ -21,8 +21,8 @@ def index():
     return "Home Page"
 
 
-@app.route("/create_item", methods=['POST'])
-def create_item():
+@app.route("/create_todo", methods=['POST'])
+def create_todo():
     if request.method == 'POST':
         args = request.args
         todo = ToDo(title=args
@@ -30,16 +30,27 @@ def create_item():
                     .get('content'), author=args
                     .get('author'))
         todo.save()
-    return jsonify({
-        'Message': 'ToDo has been saved successfully'
-    })
+
+        return jsonify({
+            'Message': 'ToDo has been saved successfully'
+        })
 
 
-@app.route("update_item/", methods=['PUT'])
-def update_item():
-    if request.method == 'PUT':
+@app.route("/delete_todo", methods=['GET'])
+def delete_todo():
+    if request.method == 'GET':
         args = request.args
-        ToDo.query.get(args.get("id"))
+        todo = ToDo.query.get(args.get('id'))
+        try:
+            todo.delete()
+        except:
+            return jsonify({
+                'Message': 'ToDo does not exist'
+            })
+
+        return jsonify({
+            'Message': 'ToDo has been deleted successfully'
+        })
 
 
 if '__name__' == '__main__':
