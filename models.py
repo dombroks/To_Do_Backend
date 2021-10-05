@@ -26,7 +26,7 @@ class ToDo(db.Model):
 
     @staticmethod
     def get_all():
-        return ToDo.query.getAll()
+        return ToDo.query.all()
 
     @staticmethod
     def delete_all():

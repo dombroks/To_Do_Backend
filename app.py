@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import date
@@ -21,7 +21,7 @@ def index():
     return "Home Page"
 
 
-@app.route("/create_todo", methods=['POST'])
+@app.route("api/v1/create_todo", methods=['POST'])
 def create_todo():
     if request.method == 'POST':
         args = request.args
@@ -41,7 +41,7 @@ def create_todo():
         })
 
 
-@app.route("/delete_todo", methods=['GET'])
+@app.route("api/v1/delete_todo", methods=['GET'])
 def delete_todo():
     if request.method == 'GET':
         args = request.args
@@ -56,6 +56,12 @@ def delete_todo():
         return jsonify({
             'Message': 'ToDo has been deleted successfully'
         })
+
+
+@app.route("api/v1/get_todos", methods=['GET'])
+def get_todos():
+    todos = ToDo.get_all()
+    return make_response(jsonify({"todos": todos}))
 
 
 if '__name__' == '__main__':
