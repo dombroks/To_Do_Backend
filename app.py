@@ -29,7 +29,12 @@ def create_todo():
                     .get('title'), content=args
                     .get('content'), author=args
                     .get('author'))
-        todo.save()
+        try:
+            todo.save()
+        except:
+            return jsonify({
+                'Message': 'An error, something went wrong during saving'
+            })
 
         return jsonify({
             'Message': 'ToDo has been saved successfully'
