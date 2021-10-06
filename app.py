@@ -1,8 +1,11 @@
 import os
-
 from flask import Flask, request, jsonify, make_response
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from marshmallow import fields
+
+
+
 
 app = Flask(__name__)
 env_config = os.getenv("APP_SETTINGS", "config.DevelopmentConfig")
@@ -60,7 +63,9 @@ def delete_todo():
 @app.route("/api/v1/todos", methods=['GET'])
 def get_todos():
     if request.method == 'GET':
-        todos = ToDo.get_all()
+        todos = []
+        for todo in ToDo.get_all():
+            todos.append(todo.serialize())
         return make_response(jsonify({"todos": todos}))
 
 
