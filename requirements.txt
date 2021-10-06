@@ -1,8 +1,8 @@
 alembic==1.7.3
 click==8.0.1
 Flask==2.0.2
+flask-marshmallow==0.14.0
 Flask-Migrate==3.1.0
-Flask-Script==2.0.6
 Flask-SQLAlchemy==2.5.1
 greenlet==1.1.2
 importlib-resources==5.2.2
@@ -10,9 +10,13 @@ itsdangerous==2.0.1
 Jinja2==3.0.1
 Mako==1.1.5
 MarkupSafe==2.0.1
+marshmallow==3.13.0
+marshmallow-sqlalchemy==0.26.1
 pkg_resources==0.0.0
 psycopg2==2.9.1
 psycopg2-binary==2.9.1
+six==1.16.0
 SQLAlchemy==1.4.25
+webargs==8.0.1
 Werkzeug==2.0.1
 zipp==3.6.0
