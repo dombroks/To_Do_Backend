@@ -1,8 +1,8 @@
 import os
+
 from flask import Flask, request, jsonify, make_response
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from datetime import date
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 env_config = os.getenv("APP_SETTINGS", "config.DevelopmentConfig")
@@ -21,7 +21,7 @@ def index():
     return "Home Page"
 
 
-@app.route("api/v1/create_todo", methods=['POST'])
+@app.route("/api/v1/todos", methods=['POST'])
 def create_todo():
     if request.method == 'POST':
         args = request.args
@@ -41,9 +41,9 @@ def create_todo():
         })
 
 
-@app.route("api/v1/delete_todo", methods=['GET'])
+@app.route("/api/v1/todos", methods=['DELETE'])
 def delete_todo():
-    if request.method == 'GET':
+    if request.method == 'DELETE':
         args = request.args
         todo = ToDo.query.get(args.get('id'))
         try:
@@ -58,10 +58,11 @@ def delete_todo():
         })
 
 
-@app.route("api/v1/get_todos", methods=['GET'])
+@app.route("/api/v1/todos", methods=['GET'])
 def get_todos():
-    todos = ToDo.get_all()
-    return make_response(jsonify({"todos": todos}))
+    if request.method == 'GET':
+        todos = ToDo.get_all()
+        return make_response(jsonify({"todos": todos}))
 
 
 if '__name__' == '__main__':
