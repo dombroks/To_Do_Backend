@@ -87,7 +87,10 @@ def update_todo(id):
 @app.route("/api/v1/todos/<id>", methods=['GET'])
 def get_todo(id):
     if request.method == 'GET':
-        return make_response(schema.toDoSchema.dump(ToDo.query.get(id)))
+        try:
+            return make_response(schema.toDoSchema.dump(ToDo.query.get(id)))
+        except:
+            return make_response(jsonify({"Message:Todo does not exist"}))
 
 
 if '__name__' == '__main__':
