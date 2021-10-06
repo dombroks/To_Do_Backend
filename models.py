@@ -27,11 +27,3 @@ class ToDo(db.Model):
     def __repr__(self):
         return '<id {}>'.format(self.id)
 
-    def serialize(self):
-        return {
-            'id': self.id,
-            'title': self.title,
-            'content': self.content,
-            'author': self.author,
-            'published': self.published
-        }

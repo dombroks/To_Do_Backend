@@ -1,8 +1,9 @@
 import os
+
 from flask import Flask, request, jsonify, make_response
+from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-from marshmallow import fields
 
 app = Flask(__name__)
 env_config = os.getenv("APP_SETTINGS", "config.DevelopmentConfig")
@@ -10,7 +11,10 @@ app.config.from_object(env_config)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+ma = Marshmallow(app)
+
 from models import ToDo
+import schema
 
 migrate = Migrate()
 migrate.init_app(app, db)
@@ -62,8 +66,8 @@ def get_todos():
         todos = ToDo.query.all()
         serialized_todos = []
         for todo in todos:
-            serialized_todos.append(todo.serialize())
-        return make_response(jsonify({"todos": serialized_todos}))
+            serialized_todos.append(schema.toDoSchema.dump(todo))
+        return make_response(jsonify(serialized_todos))
 
 
 @app.route("/api/v1/todos/<id>", methods=['PUT'])
@@ -83,7 +87,8 @@ def update_todo(id):
 
 @app.route("/api/v1/todos/<id>", methods=['GET'])
 def get_todo(id):
-    return make_response(jsonify(ToDo.query.get(id).serialize()))
+    if request.method == 'GET':
+        return make_response(schema.toDoSchema.dump(ToDo.query.get(id)))
 
 
 if '__name__' == '__main__':
