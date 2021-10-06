@@ -25,10 +25,9 @@ def index():
 def create_todo():
     if request.method == 'POST':
         args = request.args
-        todo = ToDo(title=args
-                    .get('title'), content=args
-                    .get('content'), author=args
-                    .get('author'))
+        todo = ToDo(title=args.get('title'),
+                    content=args.get('content'),
+                    author=args.get('author'))
         try:
             todo.save()
         except:
