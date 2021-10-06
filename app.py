@@ -4,9 +4,6 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from marshmallow import fields
 
-
-
-
 app = Flask(__name__)
 env_config = os.getenv("APP_SETTINGS", "config.DevelopmentConfig")
 app.config.from_object(env_config)
@@ -43,11 +40,10 @@ def create_todo():
         })
 
 
-@app.route("/api/v1/todos", methods=['DELETE'])
-def delete_todo():
+@app.route("/api/v1/todos/<id>", methods=['DELETE'])
+def delete_todo(id):
     if request.method == 'DELETE':
-        args = request.args
-        todo = ToDo.query.get(args.get('id'))
+        todo = ToDo.query.get(id)
         try:
             todo.delete()
         except:
@@ -63,10 +59,31 @@ def delete_todo():
 @app.route("/api/v1/todos", methods=['GET'])
 def get_todos():
     if request.method == 'GET':
-        todos = []
-        for todo in ToDo.get_all():
-            todos.append(todo.serialize())
-        return make_response(jsonify({"todos": todos}))
+        todos = ToDo.query.all()
+        serialized_todos = []
+        for todo in todos:
+            serialized_todos.append(todo.serialize())
+        return make_response(jsonify({"todos": serialized_todos}))
+
+
+@app.route("/api/v1/todos/<id>", methods=['PUT'])
+def update_todo(id):
+    if request.method == 'PUT':
+        data = request.get_json()
+        todo = ToDo.query.get(id)
+        if data.get("content"):
+            todo.content = data['content']
+        if data.get('title'):
+            todo.title = data['title']
+        if data.get('author'):
+            todo.author = data['author']
+        todo.save()
+        return make_response(jsonify({"Message": "item has been updated successfully"}))
+
+
+@app.route("/api/v1/todos/<id>", methods=['GET'])
+def get_todo(id):
+    return make_response(jsonify(ToDo.query.get(id).serialize()))
 
 
 if '__name__' == '__main__':

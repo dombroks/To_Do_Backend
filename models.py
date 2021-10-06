@@ -24,14 +24,6 @@ class ToDo(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-    @staticmethod
-    def get_all():
-        return ToDo.query.all()
-
-    @staticmethod
-    def delete_all():
-        return ToDo.query.deleteAll()
-
     def __repr__(self):
         return '<id {}>'.format(self.id)
 
