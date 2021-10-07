@@ -12,12 +12,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
-
-
 from models import ToDo
 import schema
 
-db.create_all()
+
 
 migrate = Migrate()
 migrate.init_app(app, db)
