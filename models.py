@@ -28,5 +28,3 @@ class ToDo(db.Model):
         return '<id {}>'.format(self.id)
 
 
-db.create_all()
-db.session.commit()
