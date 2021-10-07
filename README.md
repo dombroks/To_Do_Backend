@@ -9,7 +9,7 @@ Procfile are necessary to deploy your app on Heroku for example, if you are work
  
 ## Database migration
 
-These are the commands that will need in case you want to add new tables or any changes to the database.
+These are the commands that you will need in case you want to add new tables or any changes to the database.
 
 - flask db init
 - flask migrate -m "migration message"
