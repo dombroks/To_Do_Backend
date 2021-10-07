@@ -4,7 +4,7 @@ import os
 class Config:
     DEBUG = False
     DEVELOPMENT = False
-    SQLALCHEMY_DATABASE_URI = "postgresql://dom:05081998@localhost/ToDoDb"
+    SQLALCHEMY_DATABASE_URI = "postgresql://username:password@localhost/ToDoDb"
     SECRET_KEY = os.getenv("SECRET_KEY", "this_should_be_a_random_characters_key")
 
 

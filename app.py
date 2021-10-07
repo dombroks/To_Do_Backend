@@ -15,8 +15,6 @@ ma = Marshmallow(app)
 from models import ToDo
 import schema
 
-
-
 migrate = Migrate()
 migrate.init_app(app, db)
 
